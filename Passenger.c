@@ -5,6 +5,12 @@
 #include "string.h"
 #include "ctype.h"
 
+/// @fn int Passenger_setId(Passenger*, int)
+/// @brief setea el id
+///
+/// @param this
+/// @param id
+/// @return
 int Passenger_setId(Passenger *this, int id) {
 	this->id = id;
 	if (this->id != id) {
@@ -13,6 +19,12 @@ int Passenger_setId(Passenger *this, int id) {
 	}
 	return 0;
 }
+/// @fn int Passenger_getId(Passenger*, int*)
+/// @brief obtiene el id
+///
+/// @param this
+/// @param id
+/// @return
 int Passenger_getId(Passenger *this, int *id) {
 	*id = this->id;
 	if (*id != this->id) {
@@ -20,7 +32,12 @@ int Passenger_getId(Passenger *this, int *id) {
 	}
 	return 0;
 }
-
+/// @fn int Passenger_setNombre(Passenger*, char*)
+/// @brief setea el nombre
+///
+/// @param this
+/// @param nombre
+/// @return
 int Passenger_setNombre(Passenger *this, char *nombre) {
 	if (nombre != NULL && this != NULL) {
 		strcpy(this->nombre, nombre);
@@ -30,6 +47,12 @@ int Passenger_setNombre(Passenger *this, char *nombre) {
 	return 1;
 
 }
+/// @fn int Passenger_getNombre(Passenger*, char*)
+/// @brief obtiene el nombre
+///
+/// @param this
+/// @param nombre
+/// @return
 int Passenger_getNombre(Passenger *this, char *nombre) {
 	strcpy(nombre, this->nombre);
 	if (!(strcmp(nombre, this->nombre))) {
@@ -38,7 +61,12 @@ int Passenger_getNombre(Passenger *this, char *nombre) {
 	}
 	return 0;
 }
-
+/// @fn int Passenger_setApellido(Passenger*, char*)
+/// @brief setea el apellido
+///
+/// @param this
+/// @param apellido
+/// @return
 int Passenger_setApellido(Passenger *this, char *apellido) {
 	if (this != NULL && apellido != NULL) {
 		strcpy(this->apellido, apellido);
@@ -47,6 +75,12 @@ int Passenger_setApellido(Passenger *this, char *apellido) {
 
 	return 1;
 }
+/// @fn int Passenger_getApellido(Passenger*, char*)
+/// @brief obtiene el apellido
+///
+/// @param this
+/// @param apellido
+/// @return
 int Passenger_getApellido(Passenger *this, char *apellido) {
 	strcpy(apellido, this->apellido);
 	if (!(strcmp(apellido, this->apellido))) {
@@ -54,7 +88,12 @@ int Passenger_getApellido(Passenger *this, char *apellido) {
 	}
 	return 0;
 }
-
+/// @fn int Passenger_setCodigoVuelo(Passenger*, char*)
+/// @brief setea el codigo
+///
+/// @param this
+/// @param codigoVuelo
+/// @return
 int Passenger_setCodigoVuelo(Passenger *this, char *codigoVuelo) {
 
 	if (this != NULL && codigoVuelo != NULL) {
@@ -64,6 +103,12 @@ int Passenger_setCodigoVuelo(Passenger *this, char *codigoVuelo) {
 
 	return 1;
 }
+/// @fn int Passenger_getCodigoVuelo(Passenger*, char*)
+/// @brief obtiene el codigo
+///
+/// @param this
+/// @param codigoVuelo
+/// @return
 int Passenger_getCodigoVuelo(Passenger *this, char *codigoVuelo) {
 	strcpy(codigoVuelo, this->codigoVuelo);
 	if (!(strcmp(codigoVuelo, this->codigoVuelo))) {
@@ -71,7 +116,12 @@ int Passenger_getCodigoVuelo(Passenger *this, char *codigoVuelo) {
 	}
 	return 0;
 }
-
+/// @fn int Passenger_setTipoPasajero(Passenger*, int)
+/// @brief setea el tipo
+///
+/// @param this
+/// @param tipoPasajero
+/// @return
 int Passenger_setTipoPasajero(Passenger *this, int tipoPasajero) {
 	this->tipoPasajero = tipoPasajero;
 	if (this->tipoPasajero != tipoPasajero) {
@@ -81,6 +131,12 @@ int Passenger_setTipoPasajero(Passenger *this, int tipoPasajero) {
 
 	return 0;
 }
+/// @fn int Passenger_getTipoPasajero(Passenger*, int*)
+/// @brief obtiene el tipo
+///
+/// @param this
+/// @param tipoPasajero
+/// @return
 int Passenger_getTipoPasajero(Passenger *this, int *tipoPasajero) {
 	*tipoPasajero = this->tipoPasajero;
 	if (*tipoPasajero != this->tipoPasajero) {
@@ -88,7 +144,12 @@ int Passenger_getTipoPasajero(Passenger *this, int *tipoPasajero) {
 	}
 	return 0;
 }
-
+/// @fn int Passenger_setPrecio(Passenger*, float)
+/// @brief setea el precio
+///
+/// @param this
+/// @param precio
+/// @return
 int Passenger_setPrecio(Passenger *this, float precio) {
 	this->precio = precio;
 	if (this->precio != precio) {
@@ -97,6 +158,12 @@ int Passenger_setPrecio(Passenger *this, float precio) {
 	}
 	return 0;
 }
+/// @fn int Passenger_getPrecio(Passenger*, float*)
+/// @brief obtiene el precio
+///
+/// @param this
+/// @param precio
+/// @return
 int Passenger_getPrecio(Passenger *this, float *precio) {
 	*precio = this->precio;
 	if (*precio != this->precio) {
@@ -104,6 +171,12 @@ int Passenger_getPrecio(Passenger *this, float *precio) {
 	}
 	return 0;
 }
+/// @fn int Passenger_getEstadoDeVuelo(Passenger*, char*)
+/// @brief obtiene el estado
+///
+/// @param this
+/// @param estadoDeVuelo
+/// @return
 int Passenger_getEstadoDeVuelo(Passenger *this, char *estadoDeVuelo) {
 	strcpy(estadoDeVuelo, this->estadoDeVuelo);
 	if (!(strcmp(estadoDeVuelo, this->estadoDeVuelo))) {
@@ -111,7 +184,12 @@ int Passenger_getEstadoDeVuelo(Passenger *this, char *estadoDeVuelo) {
 	}
 	return 0;
 }
-
+/// @fn int Passenger_setEstadoDeVuelo(Passenger*, char*)
+/// @brief setea el estado
+///
+/// @param this
+/// @param estadoDeVuelo
+/// @return
 int Passenger_setEstadoDeVuelo(Passenger *this, char *estadoDeVuelo) {
 
 	if (this != NULL && estadoDeVuelo != NULL) {
@@ -122,7 +200,10 @@ int Passenger_setEstadoDeVuelo(Passenger *this, char *estadoDeVuelo) {
 	printf("\n no codigo");
 	return 1;
 }
-
+/// @fn Passenger Passenger_new*()
+/// @brief vacia todos los datos
+///
+/// @return retorna el pasajero vacio
 Passenger* Passenger_new() {
 	Passenger *nuevoPasajero = NULL;
 	nuevoPasajero = (Passenger*) malloc(sizeof(Passenger));
@@ -139,7 +220,17 @@ Passenger* Passenger_new() {
 	return nuevoPasajero;
 
 }
-
+/// @fn Passenger Passenger_newParametros*(char*, char*, char*, char*, char*, char*, char*)
+/// @brief carga los datos obtenidos en el pasajero vacio
+///
+/// @param idStr
+/// @param nombreStr
+/// @param apellidoStr
+/// @param tipoPasajeroStr
+/// @param precioStr
+/// @param flycodeStr
+/// @param estadoDeVuelo
+/// @return retorna el pasajero cargado con los datos
 Passenger* Passenger_newParametros(char *idStr, char *nombreStr,
 		char *apellidoStr, char *tipoPasajeroStr, char *precioStr,
 		char *flycodeStr, char *estadoDeVuelo) {
@@ -192,8 +283,11 @@ Passenger* Passenger_newParametros(char *idStr, char *nombreStr,
 	}
 	return nuevoPasajero;
 }
-
-//-----------------------------------------------------//
+/// @fn int Passenger_listEntera(LinkedList*)
+/// @brief muestra toda la lista mediante un for
+///
+/// @param pArrayListPassenger
+/// @return
 int Passenger_listEntera(LinkedList *pArrayListPassenger) {
 	Node *indice = pArrayListPassenger->pFirstNode;
 	Passenger *leer;
@@ -209,7 +303,11 @@ int Passenger_listEntera(LinkedList *pArrayListPassenger) {
 			"\n-----------------------------------------------------------------------\n");
 	return 1;
 }
-
+/// @fn int Passenger_idDisponible(LinkedList*)
+/// @brief busca el largo de la lista para devolver la ultima posicion, si no se cargo nada el largo va a ser 0
+///
+/// @param pArrayListPassenger
+/// @return retorna el id que se usara (1 si no hay datos, es decir el primero. El largo de la lista + 1)
 int Passenger_idDisponible(LinkedList *pArrayListPassenger) {
 	Node *indice = pArrayListPassenger->pFirstNode;
 	Passenger *ultimo;
@@ -226,6 +324,12 @@ int Passenger_idDisponible(LinkedList *pArrayListPassenger) {
 
 	return devolver;
 }
+/// @fn void Passenger_busqueda*(LinkedList*, int)
+/// @brief busca la id que viene desde "idABuscar" y si encuentra la retorna
+///
+/// @param pArrayListPassenger
+/// @param idABuscar
+/// @return retorna la id en caso de encontrarla
 void* Passenger_busqueda(LinkedList *pArrayListPassenger, int idABuscar) {
 	Node *indice = pArrayListPassenger->pFirstNode;
 
@@ -242,6 +346,10 @@ void* Passenger_busqueda(LinkedList *pArrayListPassenger, int idABuscar) {
 	}
 	return idBuscada;
 }
+/// @fn void Passenger_listaUno(Passenger*)
+/// @brief lista todos los datos una vez
+///
+/// @param lecturaDeDato
 void Passenger_listaUno(Passenger *lecturaDeDato) {
 	char tipoPasajeroAux[15];
 	if (lecturaDeDato != NULL) {
