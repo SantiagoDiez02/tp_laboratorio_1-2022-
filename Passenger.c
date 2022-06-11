@@ -8,7 +8,7 @@
 int Passenger_setId(Passenger *this, int id) {
 	this->id = id;
 	if (this->id != id) {
-		printf("\n No id");
+
 		return 1;
 	}
 	return 0;
@@ -26,7 +26,7 @@ int Passenger_setNombre(Passenger *this, char *nombre) {
 		strcpy(this->nombre, nombre);
 		return 0;
 	}
-	printf("\n no nombre");
+
 	return 1;
 
 }
@@ -45,7 +45,6 @@ int Passenger_setApellido(Passenger *this, char *apellido) {
 		return 0;
 	}
 
-	printf("\n no apellido");
 	return 1;
 }
 int Passenger_getApellido(Passenger *this, char *apellido) {
@@ -63,7 +62,6 @@ int Passenger_setCodigoVuelo(Passenger *this, char *codigoVuelo) {
 		return 0;
 	}
 
-	printf("\n no codigo");
 	return 1;
 }
 int Passenger_getCodigoVuelo(Passenger *this, char *codigoVuelo) {
@@ -77,9 +75,10 @@ int Passenger_getCodigoVuelo(Passenger *this, char *codigoVuelo) {
 int Passenger_setTipoPasajero(Passenger *this, int tipoPasajero) {
 	this->tipoPasajero = tipoPasajero;
 	if (this->tipoPasajero != tipoPasajero) {
-		printf("\n no tipo");
+
 		return 1;
 	}
+
 	return 0;
 }
 int Passenger_getTipoPasajero(Passenger *this, int *tipoPasajero) {
@@ -93,7 +92,7 @@ int Passenger_getTipoPasajero(Passenger *this, int *tipoPasajero) {
 int Passenger_setPrecio(Passenger *this, float precio) {
 	this->precio = precio;
 	if (this->precio != precio) {
-		printf("\n no precio");
+
 		return 1;
 	}
 	return 0;
@@ -104,6 +103,24 @@ int Passenger_getPrecio(Passenger *this, float *precio) {
 		return 1;
 	}
 	return 0;
+}
+int Passenger_getEstadoDeVuelo(Passenger *this, char *estadoDeVuelo) {
+	strcpy(estadoDeVuelo, this->estadoDeVuelo);
+	if (!(strcmp(estadoDeVuelo, this->estadoDeVuelo))) {
+		return 1;
+	}
+	return 0;
+}
+
+int Passenger_setEstadoDeVuelo(Passenger *this, char *estadoDeVuelo) {
+
+	if (this != NULL && estadoDeVuelo != NULL) {
+		strcpy(this->estadoDeVuelo, estadoDeVuelo);
+		return 0;
+	}
+
+	printf("\n no codigo");
+	return 1;
 }
 
 Passenger* Passenger_new() {
@@ -125,7 +142,7 @@ Passenger* Passenger_new() {
 
 Passenger* Passenger_newParametros(char *idStr, char *nombreStr,
 		char *apellidoStr, char *tipoPasajeroStr, char *precioStr,
-		char *flycodeStr) {
+		char *flycodeStr, char *estadoDeVuelo) {
 	Passenger *nuevoPasajero = Passenger_new();
 	int idAux;
 	int tipoAux;
@@ -133,12 +150,13 @@ Passenger* Passenger_newParametros(char *idStr, char *nombreStr,
 
 	idAux = atoi(idStr);
 	tipoAux = strcmp(tipoPasajeroStr, "ExecutiveClass");
-	//-1 para economica, 0 para ejecutiva, 1 para primera
+
 	precioAux = atof(precioStr);
 
 	int validacion = 0;
 
 	if (nuevoPasajero != NULL) {
+
 		if (Passenger_setId(nuevoPasajero, idAux) == 0) {
 			validacion++;
 			if (Passenger_setNombre(nuevoPasajero, nombreStr) == 0) {
@@ -147,43 +165,87 @@ Passenger* Passenger_newParametros(char *idStr, char *nombreStr,
 					validacion++;
 					if (Passenger_setTipoPasajero(nuevoPasajero, tipoAux)
 							== 0) {
+
 						validacion++;
 						if (Passenger_setPrecio(nuevoPasajero, precioAux)
 								== 0) {
 							validacion++;
 							if (Passenger_setCodigoVuelo(nuevoPasajero,
 									flycodeStr) == 0) {
-								nuevoPasajero->isEmpty = 5;
 								validacion++;
+								if (Passenger_setEstadoDeVuelo(nuevoPasajero,
+										estadoDeVuelo) == 0) {
+									validacion++;
+								}
 							}
 						}
 					}
 				}
 			}
+
+			if (validacion != 7) {
+				free(nuevoPasajero);
+				nuevoPasajero = NULL;
+			}
 		}
 
-		if (validacion != 6) {
-			free(nuevoPasajero);
-			nuevoPasajero = NULL;
-		}
 	}
-
 	return nuevoPasajero;
-
 }
 
 //-----------------------------------------------------//
-int Passenger_list(LinkedList *pArrayListPassenger) {
+int Passenger_listEntera(LinkedList *pArrayListPassenger) {
 	Node *indice = pArrayListPassenger->pFirstNode;
 	Passenger *leer;
-	char tipoPasajeroAux[15];
 
 	printf(
-			"\nID:  || Nombre y Apellido: || Precio: \t|| Tipo De Pasajero:   || Codigo De Vuelo: \n");
+			"\nID:  || apellido y nombre: || Precio: \t|| Tipo De Pasajero:   || Codigo De Vuelo: \n");
 	for (; indice != NULL; indice = indice->pNextNode) {
 		leer = indice->pElement;
+		Passenger_listaUno(leer);
 
-		switch (leer->tipoPasajero) {
+	}
+	printf(
+			"\n-----------------------------------------------------------------------\n");
+	return 1;
+}
+
+int Passenger_idDisponible(LinkedList *pArrayListPassenger) {
+	Node *indice = pArrayListPassenger->pFirstNode;
+	Passenger *ultimo;
+	int devolver = 0;
+
+	if (ll_len(pArrayListPassenger) == 0) {
+		devolver = 1;
+	} else {
+		for (; indice != NULL; indice = indice->pNextNode) {
+			ultimo = indice->pElement;
+		}
+		devolver = ultimo->id + 1;
+	}
+
+	return devolver;
+}
+void* Passenger_busqueda(LinkedList *pArrayListPassenger, int idABuscar) {
+	Node *indice = pArrayListPassenger->pFirstNode;
+
+	Passenger *idBuscada;
+
+	for (idBuscada = indice->pElement;
+			idBuscada->id != idABuscar && idBuscada != NULL;
+			indice = indice->pNextNode) {
+		idBuscada = indice->pElement;
+	}
+	if (idBuscada->id != idABuscar) {
+		idBuscada = NULL;
+		printf("ERROR");
+	}
+	return idBuscada;
+}
+void Passenger_listaUno(Passenger *lecturaDeDato) {
+	char tipoPasajeroAux[15];
+	if (lecturaDeDato != NULL) {
+		switch (lecturaDeDato->tipoPasajero) {
 		case -1:
 			strcpy(tipoPasajeroAux, "EconomyClass");
 			break;
@@ -194,29 +256,21 @@ int Passenger_list(LinkedList *pArrayListPassenger) {
 			strcpy(tipoPasajeroAux, "FirstClass");
 			break;
 		}
-		if (leer->id != 0) {
-			printf("%d   ||   ", leer->id);
 
-			printf(leer->nombre);
-			printf(" ");
-			printf(leer->apellido);
-			printf("  ||  ");
-			printf("%.2f", leer->precio);
-			printf("\t||\t");
-			printf(tipoPasajeroAux);
-			printf("\t||\t");
-			printf(leer->codigoVuelo);
-			printf("\n\n");
-		}
+		printf("%d  ||  ", lecturaDeDato->id);
+		printf(lecturaDeDato->apellido);
+		printf(" ");
+		printf(lecturaDeDato->nombre);
+		printf("  ||  ");
+		printf("%.2f", lecturaDeDato->precio);
+		printf("  ||  ");
+		printf(tipoPasajeroAux);
+		printf("  ||  ");
+		printf(lecturaDeDato->codigoVuelo);
+		printf("  ||  ");
+		printf(lecturaDeDato->estadoDeVuelo);
+		printf("\n");
 	}
-	printf(
-			"\n-----------------------------------------------------------------------\n");
-	return 1;
-}
 
-int Passenger_idDisponible(LinkedList *pArrayListPassenger) {
-	int devolver = ll_len(pArrayListPassenger);
-
-	return devolver;
 }
 

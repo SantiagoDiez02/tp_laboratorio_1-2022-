@@ -13,64 +13,58 @@
  * \return int
  *
  */
-int parser_PassengerFromText(FILE* pFile, LinkedList* pArrayListPassenger)
-{
+int parser_PassengerFromText(FILE *pFile, LinkedList *pArrayListPassenger) {
 
-	Passenger* nuevo;
+	Passenger *nuevo;
 
-	char idNoUsado[50];
-	char nombreAux[50];
-	char apellidoAux[50];
-	char precioAux[50];
+	char nombreAux[15];
+	char apellidoAux[15];
+	char precioAux[15];
 
-	char flycodeAux[50];
-	char tipoAux[50];
+	char flycodeAux[15];
+	char tipoAux[15];
 
-	char estadoNoUsado[50];
+	char estado[15];
 
-	char validacionApellido[50];
+	char validacionApellido[15];
 
 	int idAuxNumero;
-	char idAux[6];
+	char idAux[10];
 
 	int r;
 
-
-	if(pFile == NULL)
-	{
+	if (pFile == NULL) {
 		printf("El archivo no existe");
 		exit(EXIT_FAILURE);
 	}
-	do
-	{
-		r = fscanf(pFile,"%[^,],%[^,],%[^, ^\n],%[^,],%[^,],%[^,],%[^\n]\n",idNoUsado,nombreAux,apellidoAux,precioAux,flycodeAux,tipoAux,estadoNoUsado);
-		if(r==7)
-		{
+	do {
+		r = fscanf(pFile, "%[^,],%[^,],%[^, ^\n],%[^,],%[^,],%[^,],%[^\n]\n",
+				idAux, nombreAux, apellidoAux, precioAux, flycodeAux, tipoAux,
+				estado);
 
-			//      ESTA VALIDACION VA EN CASO DE ELIMINAR LOS CARACTERES ESPECIALES EN LOS APELLIDOS
+		if (r == 7) {
+
 			sscanf(apellidoAux, "%[a-zA-Z ]", validacionApellido);
-			if(strcmp(apellidoAux,validacionApellido) == 0)
-			{
+			if (strcmp(apellidoAux, validacionApellido) == 0) {
 
 				idAuxNumero = Passenger_idDisponible(pArrayListPassenger);
 				itoa(idAuxNumero, idAux, 10);
 
-					nuevo = Passenger_newParametros(idAux, nombreAux, apellidoAux, tipoAux, precioAux, flycodeAux);
+				nuevo = Passenger_newParametros(idAux, nombreAux, apellidoAux,
+						tipoAux, precioAux, flycodeAux, estado);
 
-					if(nuevo != NULL)
-					{
-						ll_add(pArrayListPassenger, nuevo);
-					}
+				if (nuevo != NULL) {
+
+					ll_add(pArrayListPassenger, nuevo);
 				}
+			}
 		}
 
-	}while(!feof(pFile));
+	} while (!feof(pFile));
 
 	fclose(pFile);
 
-
-
-    return 1;
+	return 1;
 }
 
 /** \brief Parsea los datos los datos de los pasajeros desde el archivo data.csv (modo binario).
@@ -80,63 +74,29 @@ int parser_PassengerFromText(FILE* pFile, LinkedList* pArrayListPassenger)
  * \return int
  *
  */
-int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger)
-{
-	Passenger* nuevo = Passenger_new();
-	char lectura[sizeof(Passenger)];
+int parser_PassengerFromBinary(FILE *pFile, LinkedList *pArrayListPassenger) {
+	Passenger *nuevo;
 	int cant;
 
-	char idAux[50];
-	char nombreAux[50];
-	char apellidoAux[50];
-	char precioAux[50];
+	while (!feof(pFile)) {
+		nuevo = Passenger_new();
 
-	char flycodeAux[50];
-	char tipoAux[50];
-
-	char estadoAux[50];
-
-	char validacionApellido[50];
-
-
-	while(!feof(pFile))
-	{
-		cant=fread(&lectura,sizeof(Passenger),1,pFile);
-
-		sscanf(lectura,"%[0-9],%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]\n",idAux,nombreAux,apellidoAux,precioAux,flycodeAux,tipoAux,estadoAux);
-
-		printf(lectura);
-		printf("\n");
-		if(cant!=1)
-		{
-			if(feof(pFile))
-			{
+		cant = fread(nuevo, sizeof(Passenger), 1, pFile);
+		if (cant != 1) {
+			if (feof(pFile)) {
 				break;
-			}
-			else
-			{
+			} else {
 				printf("No leyo el ultimo registro");
 				break;
 			}
-		}
-		else
-		{
-		/*	if(&nuevo != NULL)
-			{
-				printf("\n");
-				printf("%d",nuevo.id);
-				printf(" | ");
-				printf(nuevo.nombre);
-				printf(" %d", nuevo.tipoPasajero);
-
-				ll_add(pArrayListPassenger, &nuevo);
+		} else {
+			if (nuevo != NULL) {
+				ll_add(pArrayListPassenger, nuevo);
 			}
 
-*/
 		}
 	}
 
-
-    return 1;
+	return 1;
 }
 
