@@ -51,5 +51,7 @@ void Passenger_listaUno(Passenger *lecturaDeDato);
 int Passenger_idDisponible(LinkedList *pArrayListPassenger);
 
 void* Passenger_busqueda(LinkedList *pArrayListPassenger, int idABuscar);
+int Passenger_nombresComparados(void* nombreA, void* nombreB);
+int Passenger_Sort(void *datoA, void *datoB);
 
 #endif /* PASSENGER_H_ */

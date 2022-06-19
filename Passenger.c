@@ -201,7 +201,7 @@ int Passenger_setEstadoDeVuelo(Passenger *this, char *estadoDeVuelo) {
 	return 1;
 }
 /// @fn Passenger Passenger_new*()
-/// @brief vacia todos los datos
+/// @brief abre la memoria dinamica de la lista y vacia todos los datos
 ///
 /// @return retorna el pasajero vacio
 Passenger* Passenger_new() {
@@ -249,24 +249,23 @@ Passenger* Passenger_newParametros(char *idStr, char *nombreStr,
 	if (nuevoPasajero != NULL) {
 
 		if (Passenger_setId(nuevoPasajero, idAux) == 0) {
-			validacion++;
+
 			if (Passenger_setNombre(nuevoPasajero, nombreStr) == 0) {
-				validacion++;
+
 				if (Passenger_setApellido(nuevoPasajero, apellidoStr) == 0) {
-					validacion++;
+
 					if (Passenger_setTipoPasajero(nuevoPasajero, tipoAux)
 							== 0) {
 
-						validacion++;
 						if (Passenger_setPrecio(nuevoPasajero, precioAux)
 								== 0) {
-							validacion++;
+
 							if (Passenger_setCodigoVuelo(nuevoPasajero,
 									flycodeStr) == 0) {
-								validacion++;
+
 								if (Passenger_setEstadoDeVuelo(nuevoPasajero,
 										estadoDeVuelo) == 0) {
-									validacion++;
+									validacion = 1;
 								}
 							}
 						}
@@ -274,7 +273,7 @@ Passenger* Passenger_newParametros(char *idStr, char *nombreStr,
 				}
 			}
 
-			if (validacion != 7) {
+			if (validacion != 1) {
 				free(nuevoPasajero);
 				nuevoPasajero = NULL;
 			}
@@ -380,5 +379,50 @@ void Passenger_listaUno(Passenger *lecturaDeDato) {
 		printf("\n");
 	}
 
+}
+int Passenger_nombresComparados(void *nombreA, void *nombreB) {
+	int validar;
+	char nombreAAux[50];
+	char nombreBAux[50];
+
+	Passenger *a;
+	Passenger *b;
+
+	a = (Passenger*) nombreA;
+	b = (Passenger*) nombreB;
+
+	Passenger_getNombre(a, nombreAAux);
+	Passenger_getNombre(b, nombreBAux);
+
+	if (strcmp(nombreAAux, nombreBAux) == 0) {
+		validar = 0;
+	} else {
+		if (strcmp(nombreAAux, nombreBAux) > 0) {
+			validar = 1;
+		} else {
+			validar = -1;
+		}
+	}
+	return validar;
+}
+int Passenger_Sort(void *datoA, void *datoB) {
+	Passenger *datoAAux;
+	Passenger *datoBAux;
+
+	datoAAux = datoA;
+	datoBAux = datoB;
+
+	int retorno;
+
+	if (datoAAux->tipoPasajero < datoBAux->tipoPasajero) {
+		retorno = 1;
+	} else {
+		if (datoAAux->tipoPasajero > datoBAux->tipoPasajero) {
+			retorno = 0;
+		} else {
+			retorno = -1;
+		}
+	}
+	return retorno;
 }
 

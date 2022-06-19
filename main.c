@@ -4,20 +4,6 @@
 #include "Controller.h"
 #include "Passenger.h"
 
-/****************************************************
- Menu:
- 1. Cargar los datos de los pasajeros desde el archivo data.csv (modo texto).
- 2. Cargar los datos de los pasajeros desde el archivo data.csv (modo binario).
- 3. Alta de pasajero
- 4. Modificar datos de pasajero
- 5. Baja de pasajero
- 6. Listar pasajeros
- 7. Ordenar pasajeros
- 8. Guardar los datos de los pasajeros en el archivo data.csv (modo texto).
- 9. Guardar los datos de los pasajeros en el archivo data.csv (modo binario).
- 10. Salir
- *****************************************************/
-
 int main() {
 	setbuf(stdout, NULL);
 	int flagMenu = 0;
@@ -30,6 +16,7 @@ int main() {
 	int validacionDeReturns;
 
 	LinkedList *listaPasajeros = ll_newLinkedList();
+	LinkedList *listaRespaldo = ll_newLinkedList();
 
 	do {
 		printf(
@@ -42,9 +29,11 @@ int main() {
 						"5. Baja de pasajero\n"
 						"6. Listar pasajeros\n"
 						"7. Ordenar pasajeros\n"
-						"8. Guardar los datos de los pasajeros en el archivo data.csv (modo texto).\n"
-						"9. Guardar los datos de los pasajeros en el archivo data.csv (modo binario).\n"
-						"10. Salir\n\n");
+						"8. Cargar una lista de respaldo\n"
+						"9. Guardar lista de respaldo\n"
+						"10. Guardar los datos de los pasajeros en el archivo data.csv (modo texto)\n"
+						"11. Guardar los datos de los pasajeros en el archivo data.csv (modo binario)\n"
+						"12. Salir\n\n");
 		scanf("%d", &opcion);
 		fflush(stdin);
 
@@ -138,30 +127,64 @@ int main() {
 			}
 			break;
 		case 8:
-			validacionDeReturns = controller_saveAsText("dataNuevo.csv",
-					listaPasajeros);
-			if (validacionDeReturns == 1) {
-				printf("\nse guardo correctamente.\n");
-				flagGuardar = 1;
+			if (ll_isEmpty(listaPasajeros)) {
+				validacionDeReturns = controller_loadFromText(
+						"dataRespaldo.csv", listaPasajeros);
+
+				if (validacionDeReturns == 1) {
+					printf("Carga de datos exitosa\n");
+					ll_sort(listaPasajeros, Passenger_nombresComparados, 1);
+				} else {
+					printf("No se puedieron cargar los datos\n");
+					break;
+				}
 			} else {
-				printf("\nNo se puedo abrir el archivo.\n");
+				printf("Los datos ya fueron cargados\n");
+				break;
+			}
+			break;
+		case 9:
+			listaRespaldo = ll_clone(listaPasajeros);
+
+			validacionDeReturns = controller_saveAsText("dataRespaldo.csv",
+					listaRespaldo);
+
+			if (ll_contains(listaPasajeros, listaRespaldo)) {
+
+			}
+			if (validacionDeReturns == 1) {
+				printf("Copia de seguridad exitosa\n");
+			} else {
+				printf("No se a podido realizar la copia de segurida\n");
+				break;
 			}
 
 			break;
-		case 9:
+		case 10:
+			validacionDeReturns = controller_saveAsText("dataNuevo.csv",
+					listaPasajeros);
+			if (validacionDeReturns == 1) {
+				printf("\nse guardo correctamente\n");
+				flagGuardar = 1;
+			} else {
+				printf("\nNo se puedo abrir el archivo\n");
+			}
+
+			break;
+		case 11:
 			validacionDeReturns = controller_saveAsBinary("data.bin",
 					listaPasajeros);
 			if (validacionDeReturns == 1) {
-				printf("\nse guardo correctamente.\n");
+				printf("\nse guardo correctamente\n");
 				flagGuardar = 1;
 			} else {
-				printf("\nNo se puedo abrir el archivo.\n");
+				printf("\nNo se puedo abrir el archivo\n");
 			}
 			break;
-		case 10:
+		case 12:
 			if (flagGuardar == 0) {
 				printf(
-						"\nno cierre el programa si antes no guardo los datos, o los perdera PARA SIEMPRE.\n");
+						"\nNo cierre el programa si antes no guardo los datos, o los perdera PARA SIEMPRE\n");
 			} else {
 				printf("\nSaliendo del menu.\n"
 						"\n\n\tMUCHAS GRACIAS!!!\n"
@@ -173,7 +196,7 @@ int main() {
 			break;
 
 		}
-	} while (opcion != 10 || flagGuardar != 1);
+	} while (opcion != 12 || flagGuardar != 1);
 	return 0;
 }
 

@@ -273,39 +273,10 @@ int controller_ListPassenger(LinkedList *pArrayListPassenger) {
  *
  */
 int controller_sortPassenger(LinkedList *pArrayListPassenger) {
-	int retorno = 0;
-
-	Node *pasajero = pArrayListPassenger->pFirstNode;
-	Node *pasajeroDos;
-
-	Passenger *verificacion;
-	Passenger *verificacionDos;
-
-	int indexUno;
-	int indexDos;
-
-	for (verificacion = pasajero->pElement; pasajero != NULL; pasajero =
-			pasajero->pNextNode) {
-
-		verificacion = pasajero->pElement;
-		if (pasajero->pNextNode != NULL) {
-			pasajeroDos = pasajero->pNextNode;
-			for (verificacionDos = pasajeroDos->pElement; pasajeroDos != NULL;
-					pasajeroDos = pasajeroDos->pNextNode) {
-				verificacionDos = pasajeroDos->pElement;
-				if (verificacion->id > verificacionDos->id) {
-					indexUno = ll_indexOf(pArrayListPassenger, verificacion);
-					indexDos = ll_indexOf(pArrayListPassenger, verificacionDos);
-					ll_set(pArrayListPassenger, indexUno, verificacionDos);
-					ll_set(pArrayListPassenger, indexDos, verificacion);
-					retorno = 1;
-				}
-
-			}
-		}
-	}
-
-	return retorno;
+	int orden;
+	utn_getNumeroEntero(&orden, "ingrese el orden\n", "Error,ingrese el orden\n", 0, 1, 2);
+ll_sort(pArrayListPassenger, Passenger_Sort, orden);
+	return 0;
 }
 
 /** \brief Guarda los datos de los pasajeros en el archivo data.csv (modo texto).
